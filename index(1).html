@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A central workspace for Amazon PPC tools, audits, optimizers, research, and reporting.">
+  <meta name="theme-color" content="#030316">
+  <title>Amazon PPC Tool Hub</title>
+
+  <style>
+    :root {
+      --navy: #030316;
+      --navy-soft: #0d1027;
+      --orange: #f39433;
+      --amber: #ffad2c;
+      --brown: #9a4e46;
+      --cream: #fff8ef;
+      --white: #ffffff;
+      --ink: #171927;
+      --muted: #767a8b;
+      --line: #e9e5de;
+      --success: #1c8a65;
+      --shadow: 0 22px 60px rgba(3, 3, 22, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 87% 4%, rgba(255, 173, 44, 0.18), transparent 23rem),
+        linear-gradient(180deg, var(--navy) 0 30rem, #f6f4f0 30rem 100%);
+    }
+
+    button, input { font: inherit; }
+
+    .shell {
+      width: min(1200px, calc(100% - 36px));
+      margin-inline: auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 26px 0;
+      color: var(--white);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: .76rem;
+      font-weight: 850;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      color: var(--navy);
+      background: linear-gradient(135deg, var(--orange), var(--amber));
+      box-shadow: 0 10px 28px rgba(255, 173, 44, .28);
+      font-size: .8rem;
+      letter-spacing: 0;
+    }
+
+    .top-label {
+      padding: 9px 13px;
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .75);
+      background: rgba(255, 255, 255, .055);
+      font-size: .74rem;
+      font-weight: 750;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      align-items: end;
+      gap: 54px;
+      padding: 60px 0 82px;
+      color: var(--white);
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: var(--amber);
+      font-size: .8rem;
+      font-weight: 850;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 28px;
+      height: 2px;
+      content: "";
+      background: linear-gradient(90deg, var(--brown), var(--amber));
+    }
+
+    h1 {
+      max-width: 790px;
+      margin: 0;
+      font-size: clamp(2.9rem, 7vw, 5.8rem);
+      line-height: .98;
+      letter-spacing: -.065em;
+    }
+
+    .gradient-text {
+      color: transparent;
+      background: linear-gradient(93deg, var(--brown), var(--amber));
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+      margin: 24px 0 0;
+      color: rgba(255, 255, 255, .65);
+      font-size: clamp(1rem, 1.8vw, 1.14rem);
+      line-height: 1.72;
+    }
+
+    .hero-card {
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .055);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-card-label {
+      color: rgba(255, 255, 255, .53);
+      font-size: .74rem;
+      font-weight: 750;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .hero-card strong {
+      display: block;
+      margin-top: 10px;
+      color: var(--amber);
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
+    .hero-card p {
+      margin: 10px 0 0;
+      color: rgba(255, 255, 255, .63);
+      font-size: .88rem;
+      line-height: 1.55;
+    }
+
+    main { padding-bottom: 70px; }
+
+    .workspace {
+      margin-top: -42px;
+      padding: clamp(22px, 4vw, 38px);
+      border: 1px solid rgba(255, 255, 255, .78);
+      border-radius: 30px;
+      background: rgba(255, 255, 255, .97);
+      box-shadow: var(--shadow);
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .toolbar h2 {
+      margin: 0 0 5px;
+      font-size: 1.38rem;
+      letter-spacing: -.025em;
+    }
+
+    .toolbar p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .search-wrap {
+      position: relative;
+      width: min(100%, 360px);
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      top: 50%;
+      left: 16px;
+      width: 18px;
+      color: var(--muted);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    #search {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 16px 12px 46px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      outline: none;
+      color: var(--ink);
+      background: #fbfaf8;
+      transition: 160ms ease;
+    }
+
+    #search:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 4px rgba(243, 148, 51, .14);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 26px;
+    }
+
+    .filter {
+      padding: 9px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #686b79;
+      background: var(--white);
+      font-size: .8rem;
+      font-weight: 750;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    .filter:hover,
+    .filter.active {
+      border-color: var(--navy);
+      color: var(--white);
+      background: var(--navy);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .tool-card {
+      position: relative;
+      display: flex;
+      min-height: 238px;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 28px;
+      padding: 23px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 21px;
+      color: inherit;
+      text-decoration: none;
+      background: var(--white);
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .tool-card.ready:hover {
+      border-color: rgba(243, 148, 51, .62);
+      box-shadow: 0 15px 36px rgba(3, 3, 22, .09);
+      transform: translateY(-4px);
+    }
+
+    .tool-card.pending {
+      cursor: default;
+    }
+
+    .tool-card::after {
+      position: absolute;
+      right: -44px;
+      bottom: -60px;
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      content: "";
+      background: linear-gradient(135deg, rgba(154, 78, 70, .07), rgba(255, 173, 44, .17));
+    }
+
+    .card-head,
+    .card-foot {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .tool-icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      color: var(--navy);
+      background: var(--cream);
+      font-size: 1.15rem;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: #8a6a38;
+      background: #fff5df;
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .status::before {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      content: "";
+      background: var(--amber);
+    }
+
+    .ready .status {
+      color: #156b4e;
+      background: #e7f7f1;
+    }
+
+    .ready .status::before { background: var(--success); }
+
+    .tool-card h3 {
+      margin: 0;
+      font-size: 1.08rem;
+      line-height: 1.35;
+      letter-spacing: -.025em;
+    }
+
+    .tool-card p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: .84rem;
+      line-height: 1.58;
+    }
+
+    .card-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .category {
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .055em;
+      text-transform: uppercase;
+    }
+
+    .open-icon {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      color: var(--white);
+      background: #c8c7cc;
+    }
+
+    .ready .open-icon {
+      background: linear-gradient(135deg, var(--brown), var(--amber));
+    }
+
+    .empty {
+      display: none;
+      padding: 54px 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .empty strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .setup-note {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      margin-top: 24px;
+      padding: 18px;
+      border: 1px solid #f1dfc4;
+      border-radius: 16px;
+      color: #705638;
+      background: #fff9ef;
+      font-size: .82rem;
+      line-height: 1.55;
+    }
+
+    .setup-note strong {
+      display: block;
+      margin-bottom: 2px;
+      color: #4e3822;
+    }
+
+    .setup-icon {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      color: var(--navy);
+      background: var(--amber);
+      font-weight: 900;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 30px 0 40px;
+      color: #777b88;
+      font-size: .8rem;
+    }
+
+    footer strong { color: var(--navy); }
+
+    @media (max-width: 920px) {
+      .hero { grid-template-columns: 1fr; gap: 25px; }
+      .hero-card { width: min(100%, 380px); }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 650px) {
+      body { background: linear-gradient(180deg, var(--navy) 0 35rem, #f6f4f0 35rem 100%); }
+      .shell { width: min(100% - 20px, 1200px); }
+      .topbar { padding-top: 18px; }
+      .brand-text { display: none; }
+      .hero { padding: 50px 6px 82px; }
+      h1 { font-size: clamp(2.7rem, 15vw, 4.2rem); }
+      .workspace { padding: 18px; border-radius: 22px; }
+      .toolbar { align-items: stretch; flex-direction: column; }
+      .search-wrap { width: 100%; }
+      .grid { grid-template-columns: 1fr; }
+      .tool-card { min-height: 220px; }
+      footer { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="shell">
+    <nav class="topbar" aria-label="Main navigation">
+      <div class="brand">
+        <span class="brand-mark">PPC</span>
+        <span class="brand-text">Blankspace Tool Suite</span>
+      </div>
+      <span class="top-label">Amazon Advertising</span>
+    </nav>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Performance control center</p>
+        <h1>Smarter PPC.<br><span class="gradient-text">All in one place.</span></h1>
+        <p class="hero-copy">A central workspace for Amazon PPC audits, optimization, campaign management, keyword research, and performance reporting.</p>
+      </div>
+
+      <aside class="hero-card" aria-label="Tool status">
+        <span class="hero-card-label">Available now</span>
+        <strong id="readyCount">0</strong>
+        <p id="readySummary">Tools will appear here as their HTML files are added.</p>
+      </aside>
+    </section>
+  </header>
+
+  <main class="shell">
+    <section class="workspace" aria-labelledby="libraryTitle">
+      <div class="toolbar">
+        <div>
+          <h2 id="libraryTitle">PPC tool library</h2>
+          <p id="resultCount" aria-live="polite">Preparing your workspace</p>
+        </div>
+
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-3.8-3.8"></path>
+          </svg>
+          <input id="search" type="search" aria-label="Search PPC tools" placeholder="Search tools" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="filters" id="filters" aria-label="Filter PPC tools"></div>
+      <div class="grid" id="toolGrid"></div>
+
+      <div class="empty" id="emptyState">
+        <strong>No matching tool found</strong>
+        Try another search or category.
+      </div>
+
+      <div class="setup-note">
+        <span class="setup-icon">i</span>
+        <div>
+          <strong>This starter index is ready before your filenames exist.</strong>
+          When a tool file is ready, add its exact filename to that tool inside the <code>TOOLS</code> list near the bottom of this file. Its status and link will activate automatically.
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span><strong>Amazon PPC Tool Hub</strong> · Strategy, automation, and analysis</span>
+      <span>Built for the Blankspace workflow</span>
+    </footer>
+  </main>
+
+  <script>
+    /*
+      HOW TO ACTIVATE A TOOL
+
+      1. Upload the tool's HTML file into the same GitHub folder as index.html.
+      2. Find that tool below.
+      3. Put the exact filename inside file: ""
+
+      Example:
+      file: "ppc-audit-tool.html"
+    */
+
+    const TOOLS = [
+      {
+        title: "PPC Audit Tool",
+        description: "Analyze campaign efficiency, traffic quality, conversion, structure, and profitability.",
+        category: "Audit & Analysis",
+        icon: "◎",
+        file: ""
+      },
+      {
+        title: "Bid Optimizer",
+        description: "Apply performance rules and produce clear bid recommendations for campaign optimization.",
+        category: "Optimization",
+        icon: "↗",
+        file: ""
+      },
+      {
+        title: "Keyword Bank",
+        description: "Map targeted keywords by ASIN, match type, status, orders, and core performance metrics.",
+        category: "Research",
+        icon: "K",
+        file: ""
+      },
+      {
+        title: "Campaign Restructuring Console",
+        description: "Move, pause, or retain targets and export a clean Amazon bulk restructuring file.",
+        category: "Campaign Management",
+        icon: "⇄",
+        file: ""
+      },
+      {
+        title: "Campaign Launch Tool",
+        description: "Build structured campaigns with bids, naming conventions, match types, and negatives.",
+        category: "Campaign Management",
+        icon: "+",
+        file: ""
+      },
+      {
+        title: "ASIN and Keyword Mapping",
+        description: "Connect advertised ASINs, campaigns, keywords, statuses, and search term performance.",
+        category: "Research",
+        icon: "⌘",
+        file: ""
+      },
+      {
+        title: "Negation Tool",
+        description: "Identify wasted search terms and prepare bulk negative keyword recommendations.",
+        category: "Optimization",
+        icon: "−",
+        file: ""
+      },
+      {
+        title: "Buy Box Analyzer",
+        description: "Review Buy Box rate, BSR, revenue, units, and performance by ASIN across dates.",
+        category: "Audit & Analysis",
+        icon: "□",
+        file: ""
+      },
+      {
+        title: "PPC Presentation Generator",
+        description: "Turn performance data into clear executive summaries, KPI views, and monthly goals.",
+        category: "Reporting",
+        icon: "▥",
+        file: ""
+      }
+    ];
+
+    const grid = document.getElementById("toolGrid");
+    const filters = document.getElementById("filters");
+    const search = document.getElementById("search");
+    const resultCount = document.getElementById("resultCount");
+    const readyCount = document.getElementById("readyCount");
+    const readySummary = document.getElementById("readySummary");
+    const emptyState = document.getElementById("emptyState");
+    let activeCategory = "All tools";
+
+    const categories = ["All tools", ...new Set(TOOLS.map(tool => tool.category))];
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>'"]/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        '"': "&quot;"
+      })[character]);
+    }
+
+    function renderFilters() {
+      filters.innerHTML = categories.map(category => `
+        <button class="filter${category === activeCategory ? " active" : ""}" type="button" data-category="${escapeHtml(category)}">
+          ${escapeHtml(category)}
+        </button>
+      `).join("");
+
+      filters.querySelectorAll(".filter").forEach(button => {
+        button.addEventListener("click", () => {
+          activeCategory = button.dataset.category;
+          renderFilters();
+          renderTools();
+        });
+      });
+    }
+
+    function renderTools() {
+      const term = search.value.trim().toLowerCase();
+      const visibleTools = TOOLS.filter(tool => {
+        const matchesCategory = activeCategory === "All tools" || tool.category === activeCategory;
+        const searchableText = `${tool.title} ${tool.description} ${tool.category}`.toLowerCase();
+        return matchesCategory && searchableText.includes(term);
+      });
+
+      grid.innerHTML = visibleTools.map(tool => {
+        const ready = Boolean(tool.file.trim());
+        const tag = ready ? "a" : "article";
+        const href = ready ? ` href="${encodeURI(tool.file.trim())}"` : "";
+        const status = ready ? "Ready" : "Coming soon";
+
+        return `
+          <${tag} class="tool-card ${ready ? "ready" : "pending"}"${href}>
+            <div class="card-head">
+              <div class="card-meta">
+                <span class="tool-icon" aria-hidden="true">${escapeHtml(tool.icon)}</span>
+                <span class="status">${status}</span>
+              </div>
+              <h3>${escapeHtml(tool.title)}</h3>
+              <p>${escapeHtml(tool.description)}</p>
+            </div>
+            <div class="card-foot">
+              <span class="category">${escapeHtml(tool.category)}</span>
+              <span class="open-icon" aria-hidden="true">${ready ? "↗" : "···"}</span>
+            </div>
+          </${tag}>
+        `;
+      }).join("");
+
+      resultCount.textContent = `Showing ${visibleTools.length} of ${TOOLS.length} planned tools`;
+      emptyState.style.display = visibleTools.length ? "none" : "block";
+    }
+
+    function updateSummary() {
+      const ready = TOOLS.filter(tool => tool.file.trim()).length;
+      readyCount.textContent = ready;
+      readySummary.textContent = ready === 0
+        ? "Tools will activate as their HTML files are added."
+        : `${ready} of ${TOOLS.length} tools are ready to open.`;
+    }
+
+    search.addEventListener("input", renderTools);
+
+    renderFilters();
+    renderTools();
+    updateSummary();
+  </script>
+</body>
+</html>
